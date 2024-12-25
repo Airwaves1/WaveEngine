@@ -10,3 +10,6 @@ add_subdirectory(glfw)
 
 # glad
 add_subdirectory(glad)
+
+target_link_libraries(external INTERFACE glfw)
+target_link_libraries(external INTERFACE glad)

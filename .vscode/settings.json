@@ -75,6 +75,9 @@
         "variant": "cpp",
         "vector": "cpp",
         "xhash": "cpp",
-        "xtree": "cpp"
+        "xtree": "cpp",
+        "any": "cpp",
+        "cstdarg": "cpp",
+        "typeindex": "cpp"
     }
 }
