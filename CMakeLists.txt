@@ -52,10 +52,10 @@ include_directories(${CMAKE_SOURCE_DIR}/source/engine/core)
 include_directories(${CMAKE_SOURCE_DIR}/source/engine/platform)
 
 # 添加第三方库头文件
-include_directories(${CMAKE_SOURCE_DIR}/external/glfw/include)
-include_directories(${CMAKE_SOURCE_DIR}/external/spdlog)
+include_directories(${CMAKE_SOURCE_DIR}/source/engine/external/glfw/include)
+include_directories(${CMAKE_SOURCE_DIR}/source/engine/external/spdlog)
 
 # 添加子目录
 add_subdirectory(source/engine)
+add_subdirectory(source/engine/external)
 add_subdirectory(source/sandbox)
-add_subdirectory(external)
