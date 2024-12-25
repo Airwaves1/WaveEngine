@@ -47,8 +47,15 @@ set(PROJECT_ROOT_DIR ${CMAKE_SOURCE_DIR})
 message(STATUS "CMAKE_SOURCE_DIR: ${CMAKE_SOURCE_DIR}")
 
 # 添加头文件搜索路径
-# include_directories()
+include_directories(${CMAKE_SOURCE_DIR}/source/engine)
+include_directories(${CMAKE_SOURCE_DIR}/source/engine/core)
+include_directories(${CMAKE_SOURCE_DIR}/source/engine/platform)
+
+# 添加第三方库头文件
+include_directories(${CMAKE_SOURCE_DIR}/external/glfw/include)
+include_directories(${CMAKE_SOURCE_DIR}/external/spdlog)
 
 # 添加子目录
 add_subdirectory(source/engine)
 add_subdirectory(source/sandbox)
+add_subdirectory(external)
