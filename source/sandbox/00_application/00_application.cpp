@@ -41,7 +41,7 @@ class Sandbox : public Wave::Application
 
         m_eventObserver = std::make_shared<EventObserver>();
 
-        m_eventObserver->subscribe<EventTest>([this](EventTest &event) {
+        m_eventObserver->subscribe<EventTest>([](EventTest &event) {
             LOG_INFO("EventTest: {0}", event.getName());
         });
 
