@@ -1,3 +1,4 @@
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 cmake_minimum_required(VERSION 3.8)
 
 project(WaveEngine)
@@ -54,6 +55,8 @@ include_directories(${CMAKE_SOURCE_DIR}/source/engine/platform)
 # 添加第三方库头文件
 include_directories(${CMAKE_SOURCE_DIR}/source/engine/external/glfw/include)
 include_directories(${CMAKE_SOURCE_DIR}/source/engine/external/spdlog)
+include_directories(${CMAKE_SOURCE_DIR}/source/engine/external)
+# include_directories(${CMAKE_SOURCE_DIR}/source/engine/external/glm)
 
 # 添加子目录
 add_subdirectory(source/engine)

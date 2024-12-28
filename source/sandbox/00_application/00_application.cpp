@@ -44,12 +44,9 @@ class Sandbox : public Wave::Application
         m_eventObserver->subscribe<EventTest>([this](EventTest &event) {
             LOG_INFO("EventTest: {0}", event.getName());
         });
-
-
         EventTest event("Sandbox EventTest");
         EventDispatcher::GetInstance().dispatch(event);
     }
-
   private:
     std::shared_ptr<EventObserver> m_eventObserver;
 };

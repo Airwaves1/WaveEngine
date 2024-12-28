@@ -11,5 +11,11 @@ add_subdirectory(glfw)
 # glad
 add_subdirectory(glad)
 
+# glm
+add_subdirectory(glm)
+option(GLM_ENABLE_EXAMPLES ON)
+option(GLM_ENABLE_CXX_20 "Enable C++ 20 features" ON)
+
 target_link_libraries(external INTERFACE glfw)
 target_link_libraries(external INTERFACE glad)
+target_link_libraries(external INTERFACE glm)
