@@ -5,12 +5,20 @@
 
 #include<glad/glad.h>
 
+// std::vector<float> quad_vertices = {
+//     // Position (x, y, z)     // UV (u, v)
+//     -0.5f, -0.5f,  0.0f,      0.0f, 0.0f,  // Bottom-left
+//      0.5f, -0.5f,  0.0f,      1.0f, 0.0f,  // Bottom-right
+//      0.5f,  0.5f,  0.0f,      1.0f, 1.0f,  // Top-right
+//     -0.5f,  0.5f,  0.0f,      0.0f, 1.0f   // Top-left
+// };
+
 std::vector<float> quad_vertices = {
     // Position (x, y, z)     // UV (u, v)
-    -0.5f, -0.5f,  0.0f,      0.0f, 0.0f,  // Bottom-left
-     0.5f, -0.5f,  0.0f,      1.0f, 0.0f,  // Bottom-right
-     0.5f,  0.5f,  0.0f,      1.0f, 1.0f,  // Top-right
-    -0.5f,  0.5f,  0.0f,      0.0f, 1.0f   // Top-left
+    -1.f, -1.f, 0.0f, 0.0f, 0.0f, // Bottom-left
+    1.f,  -1.f, 0.0f, 1.0f, 0.0f, // Bottom-right
+    1.f,  1.f,  0.0f, 1.0f, 1.0f, // Top-right
+    -1.f, 1.f,  0.0f, 0.0f, 1.0f  // Top-left
 };
 
 // Index data
@@ -66,8 +74,8 @@ class Sandbox : public Wave::Application
         glBindVertexArray(0);
 
         // 创建shader
-        std::string vertexShaderPath = std::string(SHADER_DIR) + "00/02_texture.vert";
-        std::string fragShaderPath   = std::string(SHADER_DIR) + "00/02_texture.frag";
+        std::string vertexShaderPath = std::string(SHADER_DIR) + "00/03_just_play.vert";
+        std::string fragShaderPath   = std::string(SHADER_DIR) + "00/03_just_play.frag";
         // 读取源码文件
         std::string vertexShaderCode = FileUtils::ReadFile(vertexShaderPath);
         std::string fragShaderCode   = FileUtils::ReadFile(fragShaderPath);
@@ -78,7 +86,8 @@ class Sandbox : public Wave::Application
         //加载纹理
         m_texture = std::make_shared<Texture>(std::string(TEXTURE_DIR) + "awesomeface.png");
         m_shader->bind();
-        m_shader->setUniformInt("u_texture_0",0);
+        // m_shader->setUniformInt("u_texture_0",0);
+        m_shader->setUniformFloat2("u_resolution", glm::vec2(1400, 800)); // 分辨率  
     }
 
     void onRender() override
