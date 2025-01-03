@@ -1,12 +1,4 @@
-#include "application/application.hpp"
-#include "application/entry_point.hpp"
-#include "utils/log.hpp"
-#include "utils/file_utils.hpp"
-#include <iostream>
-#include <vector>
-#include <glad/glad.h>
-#include <render/shader.hpp>
-#include <memory>
+#include "wave_engine.hpp"
 
 // 测试一下文件读取，写个Shader
 

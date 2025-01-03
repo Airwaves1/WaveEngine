@@ -18,7 +18,7 @@ struct ApplicationConfig
 class Application
 {
   public:
-    Application() = default;
+    Application()                               = default;
     Application(const Application &)            = delete;
     Application &operator=(const Application &) = delete;
     virtual ~Application();
@@ -27,6 +27,9 @@ class Application
     void mainLoop();
     void quit();
 
+    uint32_t getWindowWidth() const { return m_window->getWidth(); }
+    uint32_t getWindowHeight() const { return m_window->getHeight(); }
+
   protected:
     virtual void onConfigurate(ApplicationConfig &config) {}
     virtual void onInit() {}
@@ -34,18 +37,16 @@ class Application
     virtual void onUpdate(float deltaTime) {}
     virtual void onRender() {}
 
-
     std::chrono::steady_clock::time_point m_lastFrameTimePoint;
     std::chrono::steady_clock::time_point m_startTimePoint;
     uint64_t m_frameIndex = 0;
 
   private:
     ApplicationConfig m_config;
-    
+
     bool b_pause = false;
 
     std::unique_ptr<WaveWindow> m_window;
-
 };
 
 } // namespace Wave

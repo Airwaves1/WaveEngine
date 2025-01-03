@@ -15,10 +15,17 @@
 // ----- Utils -----
 #include "utils/log.hpp"
 #include "utils/file_utils.hpp"
+#include "utils/controller/Trackball_controller.hpp"
+
+
+// ----- OpenGL -----
+#include "opengl/shader.hpp"
+#include "opengl/texture.hpp"
+#include "opengl/gl_vertex_buffer.hpp"
+#include "opengl/gl_vertex_array.hpp"
 
 // ----- Render -----
-#include "render/shader.hpp"
-#include "render/texture.hpp"
+#include "render/camera.hpp"
 
 // ----- Event -----
 #include "event/event.hpp"

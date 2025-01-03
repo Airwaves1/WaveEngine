@@ -2,6 +2,7 @@
 
 #include <string>
 #include "utils/non_copyable.hpp"
+#include <glm/glm.hpp>
 
 struct GLFWwindow;
 
@@ -24,7 +25,7 @@ class WaveWindow : NonCopyable
     void swapBuffers() const;
 
     // 获取窗口句柄
-    GLFWwindow* getHandle() const { return m_handle; }
+    GLFWwindow *getHandle() const { return m_handle; }
 
     uint32_t getWidth() const { return m_width; }
     uint32_t getHeight() const { return m_height; }

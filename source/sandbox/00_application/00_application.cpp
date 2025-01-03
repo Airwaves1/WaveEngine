@@ -1,10 +1,4 @@
-#include <iostream>
-#include "application/application.hpp"
-#include "application/entry_point.hpp"
-
-#include "utils/log.hpp"
-#include "event/event_dispatcher.hpp"
-#include "event/event_observer.hpp"
+#include "wave_engine.hpp"
 
 namespace Wave
 {
