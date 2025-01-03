@@ -2,6 +2,7 @@
 
 #include <string>
 #include "utils/non_copyable.hpp"
+#include<glm/glm.hpp>
 
 struct GLFWwindow;
 
@@ -40,5 +41,7 @@ class WaveWindow : NonCopyable
     uint32_t m_width{0};
     uint32_t m_height{0};
     std::string m_title;
+
+
 };
 } // namespace Wave

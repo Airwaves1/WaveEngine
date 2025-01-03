@@ -23,7 +23,6 @@ class EventDispatcher
         {
         }
     };
-
     static EventDispatcher &GetInstance()
     {
         static EventDispatcher instance;
