@@ -1,10 +1,13 @@
+#include "event/event.hpp"
 #include "wave_window.hpp"
 
+#include <glm/glm.hpp>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>
 
 #include "utils/log.hpp"
+#include "event/event_dispatcher.hpp"
 
 namespace Wave
 {
@@ -34,14 +37,14 @@ WaveWindow::WaveWindow(uint32_t width, uint32_t height, const std::string &title
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 
     m_handle = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
-    if(!m_handle)
+    if (!m_handle)
     {
         LOG_ERROR("Failed to create GLFW window");
         return;
     }
-    m_width = width;
+    m_width  = width;
     m_height = height;
-    m_title = title;
+    m_title  = title;
 
     // 设置窗口居中
     const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
@@ -54,7 +57,7 @@ WaveWindow::WaveWindow(uint32_t width, uint32_t height, const std::string &title
     setupWindowCallbacks();
 
     // 加载OpenGL函数指针
-    if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         LOG_ERROR("Failed to initialize GLAD");
         return;
@@ -64,8 +67,9 @@ WaveWindow::WaveWindow(uint32_t width, uint32_t height, const std::string &title
     glfwShowWindow(m_handle);
 }
 
-WaveWindow::~WaveWindow() {
-    if(m_handle)
+WaveWindow::~WaveWindow()
+{
+    if (m_handle)
     {
         glfwDestroyWindow(m_handle);
     }
@@ -79,6 +83,74 @@ void WaveWindow::pollEvents() { glfwPollEvents(); }
 
 void WaveWindow::swapBuffers() const { glfwSwapBuffers(m_handle); }
 
-void WaveWindow::setupWindowCallbacks() {}
+void WaveWindow::setupWindowCallbacks()
+{
+
+    static glm::vec2 tmpMousePos = {0, 0};
+
+    glfwSetWindowUserPointer(m_handle, this);
+
+    glfwSetFramebufferSizeCallback(m_handle,
+                                   [](GLFWwindow *window, int width, int height)
+                                   {
+                                       WindowResizeEvent event(width, height);
+                                       EventDispatcher::GetInstance().dispatch(event);
+                                   });
+
+    glfwSetWindowCloseCallback(m_handle,
+                               [](GLFWwindow *window)
+                               {
+                                   WindowCloseEvent event;
+                                   EventDispatcher::GetInstance().dispatch(event);
+                               });
+
+    glfwSetKeyCallback(m_handle,
+                       [](GLFWwindow *window, int key, int scancode, int action, int mods)
+                       {
+                           if (action == GLFW_PRESS)
+                           {
+                               KeyPressEvent event(key, 0);
+                               EventDispatcher::GetInstance().dispatch(event);
+                           }
+                           else if (action == GLFW_RELEASE)
+                           {
+                               KeyReleaseEvent event(key);
+                               EventDispatcher::GetInstance().dispatch(event);
+                           }
+                       });
+
+    glfwSetCursorPosCallback(m_handle,
+                             [](GLFWwindow *window, double xpos, double ypos)
+                             {
+                                 tmpMousePos.x = xpos;
+                                 tmpMousePos.y = ypos;
+                                 MouseMoveEvent event(tmpMousePos.x, tmpMousePos.y);
+                                 EventDispatcher::GetInstance().dispatch(event);
+                             });
+
+    glfwSetMouseButtonCallback(
+        m_handle,
+        [](GLFWwindow *window, int button, int action, int mods)
+        {
+            if (action == GLFW_PRESS)
+            {
+                MouseButtonPressEvent event(button, tmpMousePos.x, tmpMousePos.y);
+                EventDispatcher::GetInstance().dispatch(event);
+            }
+            else if (action == GLFW_RELEASE)
+            {
+                MouseButtonReleaseEvent event(button, tmpMousePos.x, tmpMousePos.y);
+                EventDispatcher::GetInstance().dispatch(event);
+            }
+        });
+
+    // 设置滚轮回调
+    glfwSetScrollCallback(m_handle,
+                          [](GLFWwindow *window, double xoffset, double yoffset)
+                          {
+                              MouseScrollEvent event(xoffset, yoffset);
+                              EventDispatcher::GetInstance().dispatch(event);
+                          });
+}
 
 } // namespace Wave

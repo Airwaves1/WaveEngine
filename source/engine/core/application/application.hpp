@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 #include <iostream>
 #include <string>
 #include <memory>
@@ -26,6 +27,9 @@ class Application
     void start(int argc, char **argv);
     void mainLoop();
     void quit();
+
+    uint32_t getWindowWidth() const { return m_window->getWidth(); }
+    uint32_t getWindowHeight() const { return m_window->getHeight(); }
 
   protected:
     virtual void onConfigurate(ApplicationConfig &config) {}
