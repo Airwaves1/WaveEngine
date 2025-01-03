@@ -7,8 +7,10 @@ in vec3 v_normal;
 
 uniform sampler2D u_texture_0;
 
-
 void main() {
-    vec3 normal = normalize(v_normal) * 0.5 + 0.5; //归一化到0-
-    FragColor = vec4(normal, 1.0);
+
+    vec3 normalColor = normalize(v_normal) * 0.5 + 0.5; // 归一化到0-1
+
+    // FragColor = texture(u_texture_0, v_uv);
+    FragColor = vec4(normalColor, 1.0);
 }

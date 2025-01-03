@@ -7,8 +7,8 @@
 #include <GLFW/glfw3native.h>
 
 #include "utils/log.hpp"
+#include "event/event.hpp"
 #include "event/event_dispatcher.hpp"
-
 namespace Wave
 {
 WaveWindow::WaveWindow(uint32_t width, uint32_t height, const std::string &title)
@@ -85,11 +85,12 @@ void WaveWindow::swapBuffers() const { glfwSwapBuffers(m_handle); }
 
 void WaveWindow::setupWindowCallbacks()
 {
+    static glm::vec2 tmpMousePos = {0.0f, 0.0f};
 
-    static glm::vec2 tmpMousePos = {0, 0};
-
+    // 设置窗口用户指针
     glfwSetWindowUserPointer(m_handle, this);
 
+    // 设置窗口大小回调
     glfwSetFramebufferSizeCallback(m_handle,
                                    [](GLFWwindow *window, int width, int height)
                                    {
@@ -97,6 +98,7 @@ void WaveWindow::setupWindowCallbacks()
                                        EventDispatcher::GetInstance().dispatch(event);
                                    });
 
+    // 设置窗口关闭回调
     glfwSetWindowCloseCallback(m_handle,
                                [](GLFWwindow *window)
                                {
@@ -104,6 +106,7 @@ void WaveWindow::setupWindowCallbacks()
                                    EventDispatcher::GetInstance().dispatch(event);
                                });
 
+    // 设置键盘回调
     glfwSetKeyCallback(m_handle,
                        [](GLFWwindow *window, int key, int scancode, int action, int mods)
                        {
@@ -119,15 +122,17 @@ void WaveWindow::setupWindowCallbacks()
                            }
                        });
 
+    // 设置鼠标位置回调
     glfwSetCursorPosCallback(m_handle,
                              [](GLFWwindow *window, double xpos, double ypos)
                              {
                                  tmpMousePos.x = xpos;
                                  tmpMousePos.y = ypos;
-                                 MouseMoveEvent event(tmpMousePos.x, tmpMousePos.y);
+                                 MouseMoveEvent event(xpos, ypos);
                                  EventDispatcher::GetInstance().dispatch(event);
                              });
 
+    // 设置鼠标按键回调
     glfwSetMouseButtonCallback(
         m_handle,
         [](GLFWwindow *window, int button, int action, int mods)

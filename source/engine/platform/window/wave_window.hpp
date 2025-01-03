@@ -2,10 +2,7 @@
 
 #include <string>
 #include "utils/non_copyable.hpp"
-<<<<<<< HEAD
-=======
 #include<glm/glm.hpp>
->>>>>>> cf01b49d24b02c415d782539d1a293c9235baa68
 
 struct GLFWwindow;
 
@@ -28,7 +25,7 @@ class WaveWindow : NonCopyable
     void swapBuffers() const;
 
     // 获取窗口句柄
-    GLFWwindow* getHandle() const { return m_handle; }
+    GLFWwindow *getHandle() const { return m_handle; }
 
     uint32_t getWidth() const { return m_width; }
     uint32_t getHeight() const { return m_height; }
@@ -44,10 +41,7 @@ class WaveWindow : NonCopyable
     uint32_t m_width{0};
     uint32_t m_height{0};
     std::string m_title;
-<<<<<<< HEAD
-=======
 
 
->>>>>>> cf01b49d24b02c415d782539d1a293c9235baa68
 };
 } // namespace Wave
