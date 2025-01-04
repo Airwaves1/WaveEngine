@@ -1,7 +1,7 @@
 #include "gl_vertex_buffer.hpp"
 #include <glad/glad.h>
 
-namespace Airwave
+namespace Wave
 {
 
 // ==============================================================
@@ -50,4 +50,4 @@ void IndexBuffer::bind() const { glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_handle)
 
 void IndexBuffer::unbind() const { glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); }
 
-} // namespace Airwave
+} // namespace Wave

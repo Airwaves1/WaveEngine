@@ -44,7 +44,7 @@ std::vector<float> cube_vertices = {
 };
 
 // 索引数据
-std::vector<int> cube_indices = {
+std::vector<uint32_t> cube_indices = {
     0,  1,  2,  0,  2,  3,  // Front face
     4,  5,  6,  4,  6,  7,  // Back face
     8,  9,  10, 8,  10, 11, // Left face
@@ -71,51 +71,24 @@ class Sandbox : public Application
 
     void onInit() override
     {
-        uint32_t vbo, ebo;
+        m_vertexArray = std::make_shared<VertexArray>();
+        m_vertexArray->bind();
+        {
+            auto vertexBuffer = std::make_shared<VertexBuffer>(
+                cube_vertices.data(), cube_vertices.size() * sizeof(float));
+            vertexBuffer->setLayout({
+                {ShaderDataType::Float3, "a_position"},
+                {ShaderDataType::Float2, "a_texCoord"},
+                {ShaderDataType::Float3, "a_normal"},
+            });
+            m_vertexArray->addVertexBuffer(vertexBuffer);
 
-        // 生成 VAO
-        glGenVertexArrays(1, &m_vao);
-        glBindVertexArray(m_vao);
+            auto indexBuffer = std::make_shared<IndexBuffer>(static_cast<uint32_t *>(cube_indices.data()),
+                                                             cube_indices.size()); 
 
-        // 生成 VBO
-        glGenBuffers(1, &vbo);
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-        // 将顶点数据传入 VBO
-        glBufferData(GL_ARRAY_BUFFER, cube_vertices.size() * sizeof(float), cube_vertices.data(),
-                     GL_STATIC_DRAW);
-
-        // 生成 EBO
-        glGenBuffers(1, &ebo);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-
-        // 将索引数据传入 EBO
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, cube_indices.size() * sizeof(int),
-                     cube_indices.data(), GL_STATIC_DRAW);
-
-        // 设置顶点属性指针
-        // 顶点位置 (x, y, z)
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
-        glEnableVertexAttribArray(0);
-
-        // UV 坐标 (u, v)
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float),
-                              (void *)(3 * sizeof(float)));
-        glEnableVertexAttribArray(1);
-
-        // 法线 (nx, ny, nz)
-        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float),
-                              (void *)(5 * sizeof(float)));
-        glEnableVertexAttribArray(2);
-
-        // 解绑 VAO
-        glBindVertexArray(0);
-
-        // 解绑 VBO
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-        // 解绑 EBO
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+            m_vertexArray->setIndexBuffer(indexBuffer);
+        }
+        m_vertexArray->unbind();
 
         // 创建Shader
         std::string vertexShaderSource   = FileUtils::ReadFile(SHADER_DIR "00/03_camera.vert");
@@ -144,19 +117,21 @@ class Sandbox : public Application
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
+
         // 渲染
         m_shader->bind();
         m_shader->setUniformMat4("u_worldMatrix", glm::mat4(1.0f));
         m_shader->setUniformMat4("u_viewMatrix", glm::inverse(m_camera->getWorldMatrix()));
         m_shader->setUniformMat4("u_projectionMatrix", m_camera->getProjectionMatrix());
         m_texture->bind();
-        glBindVertexArray(m_vao);
-        glDrawElements(GL_TRIANGLES, cube_indices.size(), GL_UNSIGNED_INT, 0);
+
+        m_vertexArray->bind();
+        glDrawElements(GL_TRIANGLES, cube_indices.size(), GL_UNSIGNED_INT, nullptr);
     }
 
   private:
-    uint32_t m_vao;
+    std::shared_ptr<VertexArray> m_vertexArray;
+
     std::shared_ptr<Shader> m_shader;
     std::shared_ptr<Texture> m_texture;
     std::shared_ptr<Camera> m_camera;

@@ -5,7 +5,7 @@
 
 #include "gl_vertex_buffer.hpp"
 
-namespace Airwave
+namespace Wave
 {
 class VertexArray
 {
@@ -32,4 +32,4 @@ class VertexArray
     uint32_t m_handle;
 };
 
-} // namespace Airwave
+} // namespace Wave

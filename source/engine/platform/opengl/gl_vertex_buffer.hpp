@@ -4,7 +4,7 @@
 #include <vector>
 #include <initializer_list>
 
-namespace Airwave
+namespace Wave
 {
 enum class ShaderDataType
 {
@@ -185,4 +185,4 @@ class IndexBuffer
     uint32_t m_count;
 };
 
-} // namespace Airwave
+} // namespace Wave

@@ -1,7 +1,7 @@
 #include "gl_vertex_array.hpp"
 #include <glad/glad.h>
 
-namespace Airwave
+namespace Wave
 {
 static GLenum shaderDataTypeToOpenGLBaseType(ShaderDataType type)
 {
@@ -70,4 +70,4 @@ void VertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer> &indexBuffer
     m_indexBuffer = indexBuffer;
 }
 
-} // namespace Airwave
+} // namespace Wave
