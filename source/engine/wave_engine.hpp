@@ -34,6 +34,10 @@
 // ----- Window -----
 #include "window/wave_window.hpp"
 
+// ----- ecs -----
+#include "core/ecs/node.hpp"
+#include "core/ecs/scene.hpp"
+
 
 //-- functions --
 #include "functions/controller/Trackball_controller.hpp"

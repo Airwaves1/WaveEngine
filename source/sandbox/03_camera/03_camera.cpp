@@ -101,7 +101,7 @@ class Sandbox : public Application
 
         // 设置纹理单元
         m_shader->bind();
-        m_shader->setUniformInt("u_texture_0", 0);
+        // m_shader->setUniformInt("u_texture_0", 0);
 
         // 创建摄像机
         m_camera = std::make_shared<Camera>(CameraType::Perspective, 45.0f,
@@ -110,6 +110,33 @@ class Sandbox : public Application
         m_camera->setPosition(glm::vec3(0.0f, 0.0f, 10.0f));
 
         m_controller = std::make_shared<TrackballController>(m_camera);
+
+
+        auto root = std::make_shared<Node>("root");
+       
+        auto child_0 = std::make_shared<Node>("child_0");
+        auto child_0_0 = std::make_shared<Node>("child_0_0");
+        auto child_0_1 = std::make_shared<Node>("child_0_1");
+
+        auto child_1 = std::make_shared<Node>("child_1");
+        auto child_1_0 = std::make_shared<Node>("child_1_0");
+        auto child_1_1 = std::make_shared<Node>("child_1_1");
+
+        root->addChild(child_0.get());
+        root->addChild(child_1.get());
+
+        child_0->addChild(child_0_0.get());
+        child_0->addChild(child_0_1.get());
+
+        child_1->addChild(child_1_0.get());
+        child_1->addChild(child_1_1.get());
+
+        child_0->addChild(child_1.get());
+        child_0->addChild(child_1_0.get());
+
+        child_1->addChild(child_0.get());
+
+        root->printHierarchy();
     }
 
     void onRender() override
