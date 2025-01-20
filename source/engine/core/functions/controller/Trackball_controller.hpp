@@ -2,9 +2,6 @@
 
 #include <memory>
 #include "render/camera.hpp"
-
-
-
 namespace Wave
 {
 class EventObserver;
@@ -13,12 +10,14 @@ class TrackballController
   public:
     TrackballController(std::shared_ptr<Camera> camera, const glm::vec3 &target = glm::vec3(0.0), float distance = 10.0f);
 
+    void update();
+
     // 旋转
     void rotate(float deltaX, float deltaY);
 
     // 缩放
     void zoom(float delta);
-
+ 
     // 平移
     void pan(float deltaX, float deltaY);
 

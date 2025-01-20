@@ -17,6 +17,8 @@ TrackballController::TrackballController(std::shared_ptr<Camera> camera, const g
     setupBasicEvent();
 }
 
+void TrackballController::update() {}
+
 void TrackballController::rotate(float deltaX, float deltaY)
 {
     glm::vec3 dir  = m_camera->getPosition() - m_target;
@@ -27,7 +29,7 @@ void TrackballController::rotate(float deltaX, float deltaY)
     glm::vec3 up    = m_camera->getUpDirection();
 
     glm::quat rot =
-        glm::angleAxis(-deltaY * m_rotateSpeed, right) * glm::angleAxis(deltaX * m_rotateSpeed, up);
+        glm::angleAxis(-deltaY * m_rotateSpeed, right) * glm::angleAxis(-deltaX * m_rotateSpeed, up);
 
     // 计算新的相机位置
     dir = glm::normalize(glm::rotate(rot, dir));

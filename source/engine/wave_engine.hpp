@@ -15,7 +15,6 @@
 // ----- Utils -----
 #include "utils/log.hpp"
 #include "utils/file_utils.hpp"
-#include "utils/controller/Trackball_controller.hpp"
 
 
 // ----- OpenGL -----
@@ -32,9 +31,12 @@
 #include "event/event_dispatcher.hpp"
 #include "event/event_observer.hpp"
 
-
 // ----- Window -----
 #include "window/wave_window.hpp"
+
+
+//-- functions --
+#include "functions/controller/Trackball_controller.hpp"
 
 // ----- Application -----
 #include "application/application.hpp"
