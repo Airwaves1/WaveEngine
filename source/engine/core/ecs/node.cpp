@@ -51,15 +51,6 @@ void Node::setParent(Node *parent)
     parent->addChild(this);
 }
 
-void Node::traverse(std::function<void(Node *)> callback)
-{
-    callback(this);
-
-    for (auto child : m_children)
-    {
-        child->traverse(callback);
-    }
-}
 
 void Node::printHierarchy() {
     std::function<void(Node *, int)> print = [&](Node *node, int depth) {
@@ -74,6 +65,18 @@ void Node::printHierarchy() {
     };
 
     print(this, 0);
+}
+
+int Node::getDepth()
+{
+    int depth = 0;
+    Node *node = this;
+    while (node->hasParent())
+    {
+        node = node->getParent();
+        depth++;
+    }
+    return depth;
 }
 
 } // namespace Wave

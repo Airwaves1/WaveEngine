@@ -137,6 +137,7 @@ class Sandbox : public Application
         child_1->addChild(child_0.get());
 
         root->printHierarchy();
+        std::cout << "Depth: " << child_1_1->getDepth() << std::endl;
     }
 
     void onRender() override

@@ -57,6 +57,10 @@ include_directories(${CMAKE_SOURCE_DIR}/source/engine/platform)
 include_directories(${CMAKE_SOURCE_DIR}/source/engine/external/glfw/include)
 include_directories(${CMAKE_SOURCE_DIR}/source/engine/external/spdlog)
 include_directories(${CMAKE_SOURCE_DIR}/source/engine/external/glm)
+include_directories(${CMAKE_SOURCE_DIR}/source/engine/external/glad/include)
+include_directories(${CMAKE_SOURCE_DIR}/source/engine/external/stb_image)
+include_directories(${CMAKE_SOURCE_DIR}/source/engine/external/imgui)
+include_directories(${CMAKE_SOURCE_DIR}/source/engine/external/nlohmann_json)
 include_directories(${CMAKE_SOURCE_DIR}/source/engine/external)
 
 # 添加子目录

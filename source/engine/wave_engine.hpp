@@ -37,7 +37,9 @@
 // ----- ecs -----
 #include "core/ecs/node.hpp"
 #include "core/ecs/scene.hpp"
-
+#include "core/ecs/wave_entity.hpp"
+#include "core/ecs/wave_component.hpp"
+#include "core/ecs/wave_system.hpp"
 
 //-- functions --
 #include "functions/controller/Trackball_controller.hpp"
