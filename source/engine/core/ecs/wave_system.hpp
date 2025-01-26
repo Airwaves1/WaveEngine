@@ -15,6 +15,8 @@ class WaveSystem
 
     virtual void onUpdate(float deltaTime, Scene* scene) = 0;
 
+    virtual void afterAllSystemsUpdated(float deltaTime, Scene* scene) {}
+
   public:
     int priority = 0;
 };

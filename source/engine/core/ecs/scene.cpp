@@ -5,7 +5,10 @@
 
 namespace Wave
 {
-Scene::Scene() { m_rootNode = std::make_shared<Node>("scene_root_node"); }
+Scene::Scene() {
+    m_rootNode = std::make_shared<Node>("Root");
+    m_adminEntity = createEntity("AdminEntity");
+}
 Scene::~Scene()
 {
     destroyAllEntities();
@@ -24,7 +27,7 @@ WaveEntity *Scene::createEntity(const UUID &uuid, const std::string &name)
     m_entityMap[enttEntity]->setUUID(uuid);
     m_entityMap[enttEntity]->setParent(m_rootNode.get());
 
-    m_entities.push_back(m_entityMap[enttEntity].get());
+    m_entities.push_back(m_entityMap[enttEntity]);
 
     return m_entityMap[enttEntity].get();
 }
@@ -59,17 +62,21 @@ WaveEntity *Scene::getWaveEntity(entt::entity entity)
     }
     return nullptr;
 }
+
 void Scene::destroyEntity(WaveEntity *entity)
 {
     if (entity == nullptr)
     {
         return;
     }
-    m_registry.destroy(entity->getEntity());
     m_entityMap.erase(entity->getEntity());
-
-    m_entities.erase(std::remove(m_entities.begin(), m_entities.end(), entity), m_entities.end());
+    m_registry.destroy(entity->getEntity());
+    m_entities.erase(std::remove_if(m_entities.begin(), m_entities.end(),
+                                    [entity](const std::shared_ptr<WaveEntity> &ptr)
+                                    { return ptr.get() == entity; }),
+                     m_entities.end());
 }
+
 void Scene::destroyAllEntities()
 {
     m_registry.clear();
@@ -99,6 +106,11 @@ void Scene::updateSystems(float deltaTime)
     for (auto [priority, system] : m_systemMap)
     {
         system->onUpdate(deltaTime, this);
+    }
+
+    for (auto [priority, system] : m_systemMap)
+    {
+        system->afterAllSystemsUpdated(deltaTime, this);
     }
 }
 } // namespace Wave

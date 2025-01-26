@@ -80,15 +80,10 @@ bool WaveWindow::shouldClose() const { return glfwWindowShouldClose(m_handle); }
 void WaveWindow::pollEvents() { glfwPollEvents(); }
 
 void WaveWindow::swapBuffers() const { glfwSwapBuffers(m_handle); }
-
 void WaveWindow::setupWindowCallbacks()
 {
-    static glm::vec2 tmpMousePos = {0.0f, 0.0f};
-
-    // 设置窗口用户指针
     glfwSetWindowUserPointer(m_handle, this);
 
-    // 设置窗口大小回调
     glfwSetFramebufferSizeCallback(m_handle,
                                    [](GLFWwindow *window, int width, int height)
                                    {
@@ -96,7 +91,6 @@ void WaveWindow::setupWindowCallbacks()
                                        EventDispatcher::GetInstance().dispatch(event);
                                    });
 
-    // 设置窗口关闭回调
     glfwSetWindowCloseCallback(m_handle,
                                [](GLFWwindow *window)
                                {
@@ -104,7 +98,6 @@ void WaveWindow::setupWindowCallbacks()
                                    EventDispatcher::GetInstance().dispatch(event);
                                });
 
-    // 设置键盘回调
     glfwSetKeyCallback(m_handle,
                        [](GLFWwindow *window, int key, int scancode, int action, int mods)
                        {
@@ -120,34 +113,28 @@ void WaveWindow::setupWindowCallbacks()
                            }
                        });
 
-    // 设置鼠标位置回调
     glfwSetCursorPosCallback(m_handle,
                              [](GLFWwindow *window, double xpos, double ypos)
                              {
-                                 tmpMousePos.x = xpos;
-                                 tmpMousePos.y = ypos;
                                  MouseMoveEvent event(xpos, ypos);
                                  EventDispatcher::GetInstance().dispatch(event);
                              });
 
-    // 设置鼠标按键回调
-    glfwSetMouseButtonCallback(
-        m_handle,
-        [](GLFWwindow *window, int button, int action, int mods)
-        {
-            if (action == GLFW_PRESS)
-            {
-                MouseButtonPressEvent event(button, tmpMousePos.x, tmpMousePos.y);
-                EventDispatcher::GetInstance().dispatch(event);
-            }
-            else if (action == GLFW_RELEASE)
-            {
-                MouseButtonReleaseEvent event(button, tmpMousePos.x, tmpMousePos.y);
-                EventDispatcher::GetInstance().dispatch(event);
-            }
-        });
+    glfwSetMouseButtonCallback(m_handle,
+                               [](GLFWwindow *window, int button, int action, int mods)
+                               {
+                                   if (action == GLFW_PRESS)
+                                   {
+                                       MouseButtonPressEvent event(button, 0.0f, 0.0f); // 默认坐标
+                                       EventDispatcher::GetInstance().dispatch(event);
+                                   }
+                                   else if (action == GLFW_RELEASE)
+                                   {
+                                       MouseButtonReleaseEvent event(button, 0.0f, 0.0f);
+                                       EventDispatcher::GetInstance().dispatch(event);
+                                   }
+                               });
 
-    // 设置滚轮回调
     glfwSetScrollCallback(m_handle,
                           [](GLFWwindow *window, double xoffset, double yoffset)
                           {

@@ -7,6 +7,9 @@
 #include "window/wave_window.hpp"
 namespace Wave
 {
+
+class Scene;
+
 struct ApplicationConfig
 {
     uint32_t width  = 1400;
@@ -30,6 +33,8 @@ class Application
     uint32_t getWindowWidth() const { return m_window->getWidth(); }
     uint32_t getWindowHeight() const { return m_window->getHeight(); }
 
+    std::shared_ptr<Scene> getScene() { return m_scene; }
+
   protected:
     virtual void onConfigurate(ApplicationConfig &config) {}
     virtual void onInit() {}
@@ -47,6 +52,8 @@ class Application
     bool b_pause = false;
 
     std::unique_ptr<WaveWindow> m_window;
+
+    std::shared_ptr<Scene> m_scene;
 };
 
 } // namespace Wave

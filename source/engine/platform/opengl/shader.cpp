@@ -87,7 +87,7 @@ uint32_t Shader::getUniformLocation(const std::string &name)
     {
         if (m_uniformErrordCache.find(name) == m_uniformErrordCache.end())
         {
-            LOG_WARN("Uniform {0} not found!", name);
+            // LOG_WARN("Uniform {0} not found!", name);
             m_uniformErrordCache[name] = true;
         }
 

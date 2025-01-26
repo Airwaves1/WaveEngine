@@ -51,6 +51,7 @@ message(STATUS "CMAKE_SOURCE_DIR: ${CMAKE_SOURCE_DIR}")
 include_directories(${CMAKE_SOURCE_DIR}/source/engine)
 include_directories(${CMAKE_SOURCE_DIR}/source/engine/core)
 include_directories(${CMAKE_SOURCE_DIR}/source/engine/platform)
+include_directories(${CMAKE_SOURCE_DIR}/source/engine/game_framework)
     
 
 # 添加第三方库头文件

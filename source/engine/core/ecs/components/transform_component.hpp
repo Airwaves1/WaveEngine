@@ -52,6 +52,21 @@ class TransformComponent : public WaveComponent
     const glm::quat &getRotation() const { return m_rotation; }
     const glm::vec3 &getScale() const { return m_scale; }
 
+    glm::vec3 getForward() const
+    {
+        return glm::normalize(m_rotation * glm::vec3(0.0f, 0.0f, -1.0f));
+    }
+
+    glm::vec3 getRight() const
+    {
+        return glm::normalize(m_rotation * glm::vec3(1.0f, 0.0f, 0.0f));
+    }
+
+    glm::vec3 getUp() const
+    {
+        return glm::normalize(m_rotation * glm::vec3(0.0f, 1.0f, 0.0f));
+    }
+
     void setDirty(bool dirty) { m_dirty = dirty; }
 
   private:
@@ -65,11 +80,12 @@ class TransformComponent : public WaveComponent
     glm::mat4 m_worldMatrix; // 缓存的世界矩阵
 
     // 计算变换矩阵
-    glm::mat4 calculateTransformMatrix() const
+    glm::mat4 calculateTransformMatrix()
     {
         glm::mat4 translation = glm::translate(glm::mat4(1.0f), m_position);
         glm::mat4 rotation    = glm::toMat4(m_rotation);
         glm::mat4 scale       = glm::scale(glm::mat4(1.0f), m_scale);
+
         return translation * rotation * scale;
     }
 

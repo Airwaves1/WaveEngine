@@ -20,6 +20,8 @@ class VertexArray
     void addVertexBuffer(const std::shared_ptr<VertexBuffer> &vertexBuffer);
     void setIndexBuffer(const std::shared_ptr<IndexBuffer> &indexBuffer);
 
+    const uint32_t getIndexCount() const { return m_indexBuffer->getCount(); }
+
     const std::vector<std::shared_ptr<VertexBuffer>> &getVertexBuffers() const
     {
         return m_vertexBuffers;

@@ -3,7 +3,7 @@
 #include "ecs/scene.hpp"
 #include <entt/entt.hpp>
 
-#include "ecs/components/transforms/transform_component.hpp"
+#include "ecs/components/transform_component.hpp"
 
 namespace Wave
 {

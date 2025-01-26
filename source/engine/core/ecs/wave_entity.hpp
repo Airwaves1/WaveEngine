@@ -6,10 +6,10 @@
 
 #include <entt/entity/entity.hpp>
 #include <assert.h>
+#include <optional>
 
 #include "node.hpp"
 #include "scene.hpp"
-
 namespace Wave
 {
 class WaveEntity : public Node
@@ -23,50 +23,47 @@ class WaveEntity : public Node
         return (m_entity == other.m_entity) && (m_scene == other.m_scene);
     }
 
-    bool operator!=(const WaveEntity &other) const
-    {
-        return !(*this == other);
-    }
+    bool operator!=(const WaveEntity &other) const { return !(*this == other); }
 
     entt::entity getEntity() const { return m_entity; }
 
     Scene *getScene() const { return m_scene; }
 
-    template <typename T, typename... Args>
-    T &addComponent(Args &&...args)
+    template <typename T, typename... Args> T &addComponent(Args &&...args)
     {
-        T& component = m_scene->m_registry.emplace<T>(m_entity, std::forward<Args>(args)...);
+        T &component = m_scene->m_registry.emplace<T>(m_entity, std::forward<Args>(args)...);
         component.setOwner(this);
         return component;
     }
 
-    template <typename T>
-    bool hasComponent()
-    {
-        return m_scene->m_registry.any_of<T>(m_entity);
-    }
+    template <typename T> bool hasComponent() { return m_scene->m_registry.any_of<T>(m_entity); }
 
-    template <typename... TA>
-    bool hasAnyComponent()
+    template <typename... TA> bool hasAnyComponent()
     {
         return m_scene->m_registry.any_of<TA...>(m_entity);
     }
 
-    template <typename... TA>
-    bool hasAllComponents()
+    template <typename... TA> bool hasAllComponents()
     {
         return m_scene->m_registry.all_of<TA...>(m_entity);
     }
 
-    template <typename T>
-    T &getComponent()
+    template <typename T> T &getComponent()
     {
         assert(hasComponent<T>() && "Entity does not have component!");
         return m_scene->m_registry.get<T>(m_entity);
     }
 
-    template <typename T>
-    void removeComponent()
+    template <typename T> std::optional<std::reference_wrapper<T>> tryGetComponent()
+    {
+        if (hasComponent<T>())
+        {
+            return std::ref(m_scene->m_registry.get<T>(m_entity));
+        }
+        return std::nullopt;
+    }
+
+    template <typename T> void removeComponent()
     {
         assert(hasComponent<T>() && "Entity does not have component!");
         m_scene->m_registry.remove<T>(m_entity);
@@ -87,7 +84,7 @@ class WaveEntity : public Node
         std::vector<WaveEntity *> res;
 
         auto childrenNode = getChildren();
-        for(auto child : childrenNode)
+        for (auto child : childrenNode)
         {
             res.push_back(m_scene->getWaveEntity(child->getUUID()));
         }
